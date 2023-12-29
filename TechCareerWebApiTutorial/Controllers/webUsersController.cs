@@ -19,7 +19,7 @@ namespace TechCareerWebApiTutorial.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var orders = _context.Students.Include(x => x.Courses).ToList();
+            var orders = _context.Orders.Include(x => x.webUsers).ToList();
             return Ok(orders);
         }
     }
