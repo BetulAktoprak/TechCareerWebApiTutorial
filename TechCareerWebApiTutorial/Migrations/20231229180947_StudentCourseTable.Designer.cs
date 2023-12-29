@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TechCareerWebApiTutorial.Models.ORM;
 
@@ -11,9 +12,10 @@ using TechCareerWebApiTutorial.Models.ORM;
 namespace TechCareerWebApiTutorial.Migrations
 {
     [DbContext(typeof(TechCareerDbContext))]
-    partial class TechCareerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231229180947_StudentCourseTable")]
+    partial class StudentCourseTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,21 +37,6 @@ namespace TechCareerWebApiTutorial.Migrations
                     b.HasIndex("StudentsId");
 
                     b.ToTable("CourseStudent");
-                });
-
-            modelBuilder.Entity("OrderwebUsers", b =>
-                {
-                    b.Property<int>("OrdersOrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("webUserswebUserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("OrdersOrderId", "webUserswebUserId");
-
-                    b.HasIndex("webUserswebUserId");
-
-                    b.ToTable("OrderwebUsers");
                 });
 
             modelBuilder.Entity("TechCareerWebApiTutorial.Models.ORM.Author", b =>
@@ -198,25 +185,6 @@ namespace TechCareerWebApiTutorial.Migrations
                     b.ToTable("Employees");
                 });
 
-            modelBuilder.Entity("TechCareerWebApiTutorial.Models.ORM.Order", b =>
-                {
-                    b.Property<int>("OrderId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"), 1L, 1);
-
-                    b.Property<int>("OrderNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TotalPrice")
-                        .HasColumnType("int");
-
-                    b.HasKey("OrderId");
-
-                    b.ToTable("Orders");
-                });
-
             modelBuilder.Entity("TechCareerWebApiTutorial.Models.ORM.Student", b =>
                 {
                     b.Property<int>("Id")
@@ -249,28 +217,6 @@ namespace TechCareerWebApiTutorial.Migrations
                     b.ToTable("Students");
                 });
 
-            modelBuilder.Entity("TechCareerWebApiTutorial.Models.ORM.webUsers", b =>
-                {
-                    b.Property<int>("webUserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("webUserId"), 1L, 1);
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Phone")
-                        .HasColumnType("int");
-
-                    b.HasKey("webUserId");
-
-                    b.ToTable("webUsers");
-                });
-
             modelBuilder.Entity("CourseStudent", b =>
                 {
                     b.HasOne("TechCareerWebApiTutorial.Models.ORM.Course", null)
@@ -282,21 +228,6 @@ namespace TechCareerWebApiTutorial.Migrations
                     b.HasOne("TechCareerWebApiTutorial.Models.ORM.Student", null)
                         .WithMany()
                         .HasForeignKey("StudentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("OrderwebUsers", b =>
-                {
-                    b.HasOne("TechCareerWebApiTutorial.Models.ORM.Order", null)
-                        .WithMany()
-                        .HasForeignKey("OrdersOrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TechCareerWebApiTutorial.Models.ORM.webUsers", null)
-                        .WithMany()
-                        .HasForeignKey("webUserswebUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
