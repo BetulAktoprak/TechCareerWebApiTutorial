@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TechCareerWebApiTutorial.Models.ORM;
 
 namespace TechCareerWebApiTutorial.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class BlogController : ControllerBase
     {
         private readonly TechCareerDbContext _context;
