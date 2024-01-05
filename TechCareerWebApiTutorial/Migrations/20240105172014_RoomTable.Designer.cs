@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TechCareerWebApiTutorial.Models.ORM;
 
@@ -11,9 +12,10 @@ using TechCareerWebApiTutorial.Models.ORM;
 namespace TechCareerWebApiTutorial.Migrations
 {
     [DbContext(typeof(TechCareerDbContext))]
-    partial class TechCareerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240105172014_RoomTable")]
+    partial class RoomTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,19 +24,19 @@ namespace TechCareerWebApiTutorial.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("ClientRoom", b =>
+            modelBuilder.Entity("CompanyRoom", b =>
                 {
+                    b.Property<int>("CompaniesId")
+                        .HasColumnType("int");
+
                     b.Property<int>("RoomsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("clientsId")
-                        .HasColumnType("int");
+                    b.HasKey("CompaniesId", "RoomsId");
 
-                    b.HasKey("RoomsId", "clientsId");
+                    b.HasIndex("RoomsId");
 
-                    b.HasIndex("clientsId");
-
-                    b.ToTable("ClientRoom");
+                    b.ToTable("CompanyRoom");
                 });
 
             modelBuilder.Entity("CourseStudent", b =>
@@ -117,6 +119,9 @@ namespace TechCareerWebApiTutorial.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<int?>("RoomId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Surname")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -130,6 +135,8 @@ namespace TechCareerWebApiTutorial.Migrations
                     b.HasIndex("AdressId");
 
                     b.HasIndex("CompanyId");
+
+                    b.HasIndex("RoomId");
 
                     b.ToTable("Clients");
                 });
@@ -420,9 +427,6 @@ namespace TechCareerWebApiTutorial.Migrations
                     b.Property<DateTime>("AddDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CompanyId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -433,22 +437,20 @@ namespace TechCareerWebApiTutorial.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyId");
-
                     b.ToTable("Rooms");
                 });
 
-            modelBuilder.Entity("ClientRoom", b =>
+            modelBuilder.Entity("CompanyRoom", b =>
                 {
-                    b.HasOne("TechCareerWebApiTutorial.Models.Room", null)
+                    b.HasOne("TechCareerWebApiTutorial.Models.Company", null)
                         .WithMany()
-                        .HasForeignKey("RoomsId")
+                        .HasForeignKey("CompaniesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TechCareerWebApiTutorial.Models.Client", null)
+                    b.HasOne("TechCareerWebApiTutorial.Models.Room", null)
                         .WithMany()
-                        .HasForeignKey("clientsId")
+                        .HasForeignKey("RoomsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -495,6 +497,10 @@ namespace TechCareerWebApiTutorial.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("TechCareerWebApiTutorial.Models.Room", null)
+                        .WithMany("Clients")
+                        .HasForeignKey("RoomId");
+
                     b.Navigation("Adress");
 
                     b.Navigation("Company");
@@ -528,14 +534,7 @@ namespace TechCareerWebApiTutorial.Migrations
 
             modelBuilder.Entity("TechCareerWebApiTutorial.Models.Room", b =>
                 {
-                    b.HasOne("TechCareerWebApiTutorial.Models.Company", null)
-                        .WithMany("Rooms")
-                        .HasForeignKey("CompanyId");
-                });
-
-            modelBuilder.Entity("TechCareerWebApiTutorial.Models.Company", b =>
-                {
-                    b.Navigation("Rooms");
+                    b.Navigation("Clients");
                 });
 #pragma warning restore 612, 618
         }

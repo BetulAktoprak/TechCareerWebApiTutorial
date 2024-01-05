@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TechCareerWebApiTutorial.Models.ORM;
 
@@ -11,9 +12,10 @@ using TechCareerWebApiTutorial.Models.ORM;
 namespace TechCareerWebApiTutorial.Migrations
 {
     [DbContext(typeof(TechCareerDbContext))]
-    partial class TechCareerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240105162954_AddClientCompanyRommTable")]
+    partial class AddClientCompanyRommTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,21 +23,6 @@ namespace TechCareerWebApiTutorial.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("ClientRoom", b =>
-                {
-                    b.Property<int>("RoomsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("clientsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("RoomsId", "clientsId");
-
-                    b.HasIndex("clientsId");
-
-                    b.ToTable("ClientRoom");
-                });
 
             modelBuilder.Entity("CourseStudent", b =>
                 {
@@ -420,9 +407,6 @@ namespace TechCareerWebApiTutorial.Migrations
                     b.Property<DateTime>("AddDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CompanyId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -433,24 +417,7 @@ namespace TechCareerWebApiTutorial.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyId");
-
                     b.ToTable("Rooms");
-                });
-
-            modelBuilder.Entity("ClientRoom", b =>
-                {
-                    b.HasOne("TechCareerWebApiTutorial.Models.Room", null)
-                        .WithMany()
-                        .HasForeignKey("RoomsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TechCareerWebApiTutorial.Models.Client", null)
-                        .WithMany()
-                        .HasForeignKey("clientsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("CourseStudent", b =>
@@ -524,18 +491,6 @@ namespace TechCareerWebApiTutorial.Migrations
                     b.Navigation("Author");
 
                     b.Navigation("BlogCategory");
-                });
-
-            modelBuilder.Entity("TechCareerWebApiTutorial.Models.Room", b =>
-                {
-                    b.HasOne("TechCareerWebApiTutorial.Models.Company", null)
-                        .WithMany("Rooms")
-                        .HasForeignKey("CompanyId");
-                });
-
-            modelBuilder.Entity("TechCareerWebApiTutorial.Models.Company", b =>
-                {
-                    b.Navigation("Rooms");
                 });
 #pragma warning restore 612, 618
         }
