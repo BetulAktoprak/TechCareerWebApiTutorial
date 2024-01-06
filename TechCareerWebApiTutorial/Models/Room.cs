@@ -8,7 +8,7 @@ namespace TechCareerWebApiTutorial.Models
 		[MaxLength(50)]
         public string Name { get; set; }
 		
-		public List<Client> clients { get; set; }
+		
 		
     }
 }

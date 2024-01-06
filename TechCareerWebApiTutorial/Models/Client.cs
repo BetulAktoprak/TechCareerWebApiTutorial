@@ -14,6 +14,6 @@ namespace TechCareerWebApiTutorial.Models
         public string EMail { get; set; }
         public int CompanyId { get; set; }
         public Company Company { get; set; }
-        public List<Room> Rooms { get; set; }
+       
     }
 }

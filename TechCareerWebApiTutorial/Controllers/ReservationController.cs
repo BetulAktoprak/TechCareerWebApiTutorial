@@ -20,78 +20,60 @@ namespace TechCareerWebApiTutorial.Controllers
 		{
 			_context = new TechCareerDbContext();
 		}
+
 		[HttpGet]
-		public IActionResult Get()
+		public IActionResult GetCompany()
 		{
 			var rooms = _context.Companies.Include(x => x.Rooms).ToList();
 			return Ok(rooms);
 		}
+
 		[HttpPost]
-		public IActionResult CreateRoomByCompany(Company company)
+		public IActionResult CreateRoom(Room room)
 		{
-			var room = _context.Companies.Include(x => x.Rooms).FirstOrDefault(y => y.Id == company.Id);
-			if (room == null)
-			{
-				return NotFound();
-			}
-			
+			 _context.Rooms.Add(room);
 			_context.SaveChanges();
-
-			return StatusCode(201, company);
-
-
-		}
-		[HttpPost]
-		public IActionResult CreateClientByCompany(Room room)
-		{
-			var clients = _context.Clients.Include(x => x.Rooms).FirstOrDefault(y => y.Id == room.Id);
-
-			if (clients == null)
-			{
-				return NotFound();
-			}
-
-			_context.SaveChanges();
-
-			return StatusCode(201, clients);
-
+			return StatusCode(201, room);
 		}
 
 		[HttpPut("{id}")]
-		public IActionResult RoomUpdate(int id, Room room)
+		public IActionResult RoomUpdate(int id, Company company)
 		{
-			if (id != room.Id)
+			if (id != company.Id)
 			{
 				return NotFound();
 			}
-			var rooms = _context.Rooms.FirstOrDefault(x => x.Id == id);
+			var companies = _context.Companies.FirstOrDefault(x => x.Id == id);
 
-			if (rooms == null)
+			if (companies == null)
 			{
 				return NotFound();
 			}
-			rooms.Name = room.Name;
-			rooms.AddDate = room.AddDate;
+			companies.Name = company.Name;
+			companies.Address = company.Address;
+			companies.AddDate = company.AddDate;
+			companies.UpdateDate = company.UpdateDate;
 
 			_context.SaveChanges();
-			return StatusCode(201, rooms);
+			return StatusCode(201, companies);
 		}
+
 		[HttpDelete("{id}")]
 		public IActionResult Delete(int id)
 		{
 
-			var rooms = _context.Rooms.FirstOrDefault(x => x.Id == id);
+			var companies = _context.Companies.FirstOrDefault(x => x.Id == id);
 
 
-			if (rooms == null)
+			if (companies == null)
 			{
 				return NotFound();
 			}
 
-			_context.Rooms.Remove(rooms);
+			_context.Companies.Remove(companies);
 			_context.SaveChanges();
 
-			return Ok(rooms);
+			return Ok(companies);
 		}
 
 
