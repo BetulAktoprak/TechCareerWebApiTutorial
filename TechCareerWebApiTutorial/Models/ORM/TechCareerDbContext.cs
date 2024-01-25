@@ -6,7 +6,7 @@ namespace TechCareerWebApiTutorial.Models.ORM
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=DESKTOP-GQ3I6OJ; Database=TechCareerDb;User Id=sa;Password=1;");
+            optionsBuilder.UseSqlServer("Server=; Database=TechCareerDb;");
         }
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<Author> Authors { get; set; }
